@@ -117,6 +117,7 @@ def plot_velocity_vs_time_with_histogram(mass1, q, time_array, period, theta_arr
 
 def test_function():
     print("I want to test this!")
+    print("Here is another test")
  
 
 
