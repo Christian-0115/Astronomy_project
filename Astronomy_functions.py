@@ -114,14 +114,6 @@ def plot_velocity_vs_time_with_histogram(mass1, q, time_array, period, theta_arr
     ax1 = plt.plot(time_array, radial_velocity_with_noise, linestyle = ':', color = 'black')
     ax2 = plt.hist(radial_velocity_with_noise)
     return ax1, ax2
-
-def test_function():
-    print("I want to test this!")
-    print("Here is another test")
-
-def another_test():
-    print("I am doing another test.")
-
  
 
 
