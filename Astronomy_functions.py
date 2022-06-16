@@ -115,8 +115,9 @@ def plot_velocity_vs_time_with_histogram(mass1, q, time_array, period, theta_arr
     ax2 = plt.hist(radial_velocity_with_noise)
     return ax1, ax2
  
-
-
+def dr_simonian_test(): 
+    print("I am Dr. Simonian.")
+    print("Here are your chickens.")
 
     
     
