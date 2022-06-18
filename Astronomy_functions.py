@@ -8,11 +8,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from math import pi
 import seaborn as sns
+import scipy.stats as stats
 
 EARTH_MASS = 6 * (10**24)
 SUN_MASS = 2 * (10**30)
 
-def calculate_amplitude(mass1, q , inclination_angle, period):
+def calculate_amplitude(mass1, q_array , inclination_angle_array, period):
     """ Here is another function to calculate the amplitude of a binary system
     in a binary system.
     The inputs consist of:
@@ -22,11 +23,11 @@ def calculate_amplitude(mass1, q , inclination_angle, period):
         and period of orbit in days, and the code will change it to seconds
         the amplitude output has units of km/sec
     """
-    mass2 = q * mass1
+    mass2 = q_array * mass1
     Gravitational_constant = 6.67431 * (10**-11)
     orbital_period = period * 86400  #change the period from days to seconds
     total_mass = (mass1 + mass2)
-    amplitude = ((((mass2**3) / (total_mass**2)) * (np.sin(inclination_angle)**3)
+    amplitude = ((((mass2**3) / (total_mass**2)) * (np.sin(inclination_angle_array)**3)
                   *((2 * pi * Gravitational_constant) / orbital_period))**(1/3))
     return (amplitude) #m/s
 
@@ -53,7 +54,6 @@ def calculate_radial_velocity(mass1, q_array, time_array, period, theta_array, i
 
 def calculate_velocity_with_noise(mass1, q_array, time_array, period, std, theta_array,
                                   inclination_angle_array, number_of_observations):
-    #our code is correct up to this point it'll be useful to check it from here on
     """ Here is a function to calculate an array of velocities with noise
         period should be entered in days to get units of m/s
         standard deviation needs to have units of m/sec
@@ -66,7 +66,7 @@ def calculate_velocity_with_noise(mass1, q_array, time_array, period, std, theta
     velocity_with_noise = radial_velocity_array + noise_array
     return velocity_with_noise #m/sec
 
-def plot_velocity_vs_time(mass1, q, period, time_array, theta_array, inclination_angle, std, 
+def plot_velocity_vs_time(mass1, q_array, period, time_array, theta_array, inclination_angle_array, std, 
                           number_of_observations):
     """ Here we are creating a function to graph the radial velocity
         of a binary system, when we are given:
@@ -77,26 +77,37 @@ def plot_velocity_vs_time(mass1, q, period, time_array, theta_array, inclination
         The function returns velocity vs time over 2 orbital periods.
     """
     sns.set()
-    radial_velocity_with_noise = calculate_velocity_with_noise(mass1, q, time_array, 
-                                                          period, std, theta_array, inclination_angle, 
+    radial_velocity_with_noise = calculate_velocity_with_noise(mass1, q_array, time_array, 
+                                                          period, std, theta_array, inclination_angle_array, 
                                                           number_of_observations) #m/sec
     ax = plt.axes()
     ax.set(xlabel = 'time (days)', ylabel = 'radial velocity (km/sec)',
            title = 'Motion of star 1 around star 2')
     for x in range(0, len(theta_array)):
-        plt.plot(time_array, (radial_velocity_with_noise[x, :] / 1000), linestyle = ':') #km/s
-        plt.errorbar(time_array, (radial_velocity_with_noise[x, :] / 1000), yerr = std, fmt = '.',
-                     ecolor = 'blue');
+        for y in range(0, len(q_array)):
+            for z in range(0, len(inclination_angle_array)):
+                plt.plot(time_array, (radial_velocity_with_noise[:, x, y, z] / 1000), linestyle = ':') #km/s
+                plt.errorbar(time_array, (radial_velocity_with_noise[:, x, y, z] / 1000), yerr = std, fmt = '.',
+                             ecolor = 'blue');
 
-def Chi_square_distribution (mass1, q, period, time_array, theta_array, inclination_angle,
+def Chi_square_distribution (mass1, q_array, period, time_array, theta_array, inclination_angle_array,
                              std, number_of_observations):
     """ In this function we will be running a Chi Square statistical test to see if
         if any of our systems fall within the range of a binary star distribution
     """
-    
-    
-    
-    return
+    radial_velocities = calculate_velocity_with_noise(mass1, q_array, time_array, period, std, theta_array, inclination_angle_array, number_of_observations)
+    radial_velocities /= 1000 #here we go from m/s to km/s so our variance can mathe the units
+    sum_radial_velocities = np.sum(radial_velocities)
+    Chi_square = (sum_radial_velocities - 0)/ 100 #units of km/s divided by km^2/s^2
+    print('Experimental p value = ', Chi_square)
+    right_tail_value = stats.chi2.ppf(1-0.05, df = 60 )
+    print('Theoretical p value =', right_tail_value)
+    if Chi_square < right_tail_value:
+        print('We have a binary system')
+    elif Chi_square > right_tail_value:
+            print('We do not have a binary system')
+            
+            
 
            
 def plot_velocity_vs_time_with_histogram(mass1, q, time_array, period, theta_array, 
@@ -113,7 +124,7 @@ def plot_velocity_vs_time_with_histogram(mass1, q, time_array, period, theta_arr
     ax2 = fig.add_axes()
     ax1 = plt.plot(time_array, radial_velocity_with_noise, linestyle = ':', color = 'black')
     ax2 = plt.hist(radial_velocity_with_noise)
-    return ax1, ax2
+    return ax1, ax2 
  
 def dr_simonian_test(): 
     print("I am Dr. Simonian.")
