@@ -15,7 +15,8 @@ SUN_MASS = const.M_sun # Value = 1.98840987e+30 kg
 def KIC_Model(KICnumber):
     #Declare paramters
     target = str(KICnumber)
-    time_array = af.KIC_6425783_time_of_observation *u.day
+    time_array, measured_rv = md.rv_times() 
+    time_array = time_array *u.day
     mass1 = md.target_mass(KICnumber) * SUN_MASS
     target_period = md.target_period(KICnumber)
     
@@ -30,7 +31,6 @@ def KIC_Model(KICnumber):
     
     #calculate best fit curve radial velocity and plot it with measured rv
     b_f_rv = af.calculate_radial_velocity(mass1, b_f_q, time_array, target_period, b_f_theta, b_f_i)
-    measured_rv = af.KIC_6425783_measured_RVs 
     sns.set()
     ax = plt.axes()
     ax.set(xlabel = 'time (days)', ylabel = 'radial velocity (km/sec)',
