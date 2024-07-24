@@ -1,22 +1,21 @@
 import astronomy_functions as af
 import MDM_targets as md
 import numpy as np
-from math import pi
 from astropy import units as u
 from astropy import constants as const
 import matplotlib.pyplot as plt
 import seaborn as sns
-import pandas as pd
 from scipy import stats
+
 #Declare Variables and constants
 SUN_MASS = const.M_sun # Value = 1.98840987e+30 kg
 
+KIC_index = md.KIC_index()
 
 def KIC_Model(KICnumber):
     #Declare paramters
-    target = str(KICnumber)
-    time_array, measured_rv = md.rv_times() 
-    time_array = time_array *u.day
+    time_array, measured_rv = md.rv_times(KICnumber) 
+    time_array = np.array(time_array) *u.day
     mass1 = md.target_mass(KICnumber) * SUN_MASS
     target_period = md.target_period(KICnumber)
     
@@ -34,7 +33,7 @@ def KIC_Model(KICnumber):
     sns.set()
     ax = plt.axes()
     ax.set(xlabel = 'time (days)', ylabel = 'radial velocity (km/sec)',
-           title = 'Motion of star 1 around star 2')
+           title = f"KIC_{KICnumber} observed & measured rvs")
     plt.plot(time_array, (b_f_rv[:,0,0,0].to(u.km/u.s)).value, label = 'best fit rv curve', linestyle = ':')
     plt.plot(time_array,measured_rv, label = 'measured rv', linestyle = '-')
     plt.legend()
@@ -48,5 +47,8 @@ def KIC_Model(KICnumber):
         print('We have a binary system')
     elif min_chi_value > right_tail_value:
         print('We do not have a binary system')
-            
-            
+    print("")
+
+def Run_Model():
+    for i in KIC_index:
+        KIC_Model(i)
