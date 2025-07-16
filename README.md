@@ -9,7 +9,7 @@ This is an astronomy project that I started on May 2022 under the mentorship of 
 
 ## Research Introduction
 
-Inspired by a Kepler catalog of 27 unexpectedly fast-rotating stars, our study probes whether these objects form binary pairs bound by mutual gravity and tidal interactions. Spectroscopic binaries reveal stellar masses via Doppler shifts; by modeling radial velocity signatures, we can confirm or refute binary status.
+Inspired by a Kepler catalog of 27 unexpectedly fast-rotating stars, our study probes whether these objects form binary pairs bound by mutual gravity and tidal interactions. Spectroscopic binaries reveal stellar masses via Doppler shifts; by modeling radial velocity signatures, we can accept or reject our binary hypothesis.
 
 ## Research Methodology
 
