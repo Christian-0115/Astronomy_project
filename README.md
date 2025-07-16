@@ -16,7 +16,7 @@ Inspired by a Kepler catalog of 27 unexpectedly fast-rotating stars, our study p
 - **Literature Review & Tools**: Studied spectroscopic binaries and Kepler’s laws; read Python Data Science Handbook. Used NumPy for mathematical functions, SciPy for integrators, Matplotlib for plotting, and AstroPy for astronomical constants, units, and data tables.
 - **Model Development**: Derived amplitude and radial velocity equations via Kepler’s third law.
 - **Data Integration**: Imported rotational periods (McQuillan et al., 2014) and masses (Berger et al., 2020).
-- **Parameter Sampling**: Modeled inclination, mass ratio, and phase angle distributions; added white noise to account for observational errors.
+- **Parameter Modeling**: Modeled inclination, mass ratio, and phase angle based on their statistical distributions; added white noise to account for observational errors.
 - **Statistical Testing**: Generated thousands of synthetic radial velocity curves and used a Chi-square statistical test to identify best-fit binary parameters. We then compare our modeled radial velocity curve with the actual measured radial velocity times, measured by the Modspec instrument at the Michigan-Dartmouth-MIT (MDM) observatory.
 
 
