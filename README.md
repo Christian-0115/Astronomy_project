@@ -21,9 +21,6 @@ Inspired by a Kepler catalog of 27 unexpectedly fast-rotating stars, our study p
 
 
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Authors
 - [@gregosimo](https://github.com/gregosimo)
